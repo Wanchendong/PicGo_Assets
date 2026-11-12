@@ -1,0 +1,1604 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta name="unlock-template-version" content="2026-07-22-formula-v6">
+<!-- unlock_template_version:2026-07-22-formula-v6 -->
+
+<meta charset="utf-8">
+<title>GB/T 18487电动汽车充电标准深度解读：交流控制导引电路与充电时序实战指南</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2300B8FF'/%3E%3Cstop offset='1' stop-color='%232E5BFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='30' fill='url(%23g)'/%3E%3Cpath d='M18 37c2 8 10 13 19 12 7-1 13-5 16-11-2 2-6 4-10 4-10 0-18-8-18-18 0-4 2-8 4-10-8 3-13 12-11 23z' fill='%23fff' fill-opacity='.95'/%3E%3Ccircle cx='39' cy='24' r='5' fill='%23fff'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/a11y-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/common.min.js';"></script>
+<style>
+body {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 30px 16px 46px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                             Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei";
+    line-height: 1.95;
+    color: #222222;
+    background: #f6f8fb;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+.paper {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 28px 26px 34px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, .08);
+    position: relative;
+    z-index: 1;
+}
+.doc-title {
+    margin: 0 0 22px;
+    font-size: 32px;
+    line-height: 1.4;
+    font-weight: 800;
+    color: #0f172a;
+    word-break: break-word;
+    letter-spacing: .3px;
+}
+article p {
+    margin: 0 0 17px;
+    font-size: 18px;
+    line-height: 2;
+    color: #1f2937;
+    word-break: break-word;
+}
+article p + p {
+    text-indent: 2em;
+}
+article p.lead-line {
+    margin-bottom: 12px;
+    text-indent: 0;
+    font-weight: 600;
+    line-height: 1.75;
+}
+body.original-mode article p {
+    margin: 0 0 1em;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+body.original-mode article p + p {
+    text-indent: 0;
+}
+article h1, article h2, article h3, article h4 {
+    margin: 24px 0 12px;
+    line-height: 1.5;
+    color: #0b1324;
+}
+body.original-mode article h1,
+body.original-mode article h2,
+body.original-mode article h3,
+body.original-mode article h4 {
+    color: inherit;
+}
+body.original-mode .article-meta-inline {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    margin: 6px 0 6px;
+    color: #374151;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+body.original-mode #article-header-box,
+body.original-mode .article-header-box,
+body.original-mode .article-meta-inline,
+body.original-mode .article-meta,
+body.original-mode .article-meta-box,
+body.original-mode .article-status,
+body.original-mode .article-info-box,
+body.original-mode .article-bar-top,
+body.original-mode .blog-meta,
+body.original-mode .operate-box,
+body.original-mode .stats-box,
+body.original-mode .article-tags,
+body.original-mode .article-tags-box,
+body.original-mode .article-tag-box,
+body.original-mode .blog-tags-box,
+body.original-mode .digg-box,
+body.original-mode .digg-box-item,
+body.original-mode .like-box,
+body.original-mode .thumb-box,
+body.original-mode .praise-box,
+body.original-mode .collect-box,
+body.original-mode .favorite-box,
+body.original-mode .favourite-box,
+body.original-mode .article_collect,
+body.original-mode .article-like,
+body.original-mode .article-digg {
+    display: none !important;
+}
+body.original-mode .article-meta-inline .meta-tag {
+    display: inline;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    font-size: 14px;
+    color: #374151;
+    background: transparent;
+}
+body.original-mode .article-meta-inline .meta-time {
+    white-space: nowrap;
+}
+body.original-mode .article-meta-inline .meta-main {
+    white-space: nowrap;
+}
+body.original-mode .article-meta-inline .meta-vip {
+    display: inline-flex;
+    align-items: center;
+}
+body.original-mode .article-meta-inline .meta-vip img {
+    margin: 0;
+    max-height: 26px;
+    width: auto;
+    display: inline-block;
+}
+body.original-mode .article-meta-inline .meta-stats {
+    color: #6b7280;
+    white-space: nowrap;
+}
+body.original-mode .article-tag-inline {
+    margin: 0 0 8px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #374151;
+    word-break: break-word;
+}
+body.original-mode .article-tag-inline .tag-label {
+    color: #111827;
+    font-weight: 600;
+    margin-right: 6px;
+}
+body.original-mode .article-tag-inline .tag-item {
+    color: #1d4ed8;
+    margin-right: 6px;
+    white-space: nowrap;
+}
+article ul, article ol {
+    margin: 0 0 16px 22px;
+}
+article li {
+    margin: 6px 0;
+    font-size: 17px;
+    line-height: 1.9;
+}
+article .table-box,
+article .article-table-scroll {
+    width: 100%;
+    margin: 16px 0 22px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+article table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: auto;
+    margin: 16px 0 22px;
+    color: #374151;
+    background: #ffffff;
+    font-size: 15px;
+    line-height: 1.65;
+}
+article .table-box > table,
+article .article-table-scroll > table {
+    margin: 0;
+}
+article .table-box > .article-table-scroll {
+    margin: 0;
+}
+article th,
+article td {
+    border: 1px solid #d1d5db;
+    padding: 11px 12px;
+    text-align: left;
+    vertical-align: top;
+    word-break: normal;
+    overflow-wrap: anywhere;
+}
+article th {
+    color: #1f2937;
+    background: #eef2f5;
+    font-weight: 700;
+}
+article tbody tr:nth-child(even) td {
+    background: #f8fafc;
+}
+article td p,
+article th p {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+    text-indent: 0;
+}
+article .MathJax,
+article .katex,
+article .math,
+article .formula,
+article mjx-container {
+    line-height: 1.65;
+}
+article mjx-container[display="true"],
+article .katex-display {
+    display: block;
+    margin: 1em 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+}
+article img[src*="math"],
+article img[src*="latex"],
+article img.latex,
+article img.formula {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 .18em;
+    border-radius: 0;
+    max-width: 100%;
+}
+article p:has(img[src*="math"]),
+article p:has(img[src*="latex"]),
+article p:has(img.latex),
+article p:has(img.formula) {
+    line-height: 1.9;
+}
+.link-plain {
+    color: #475569;
+    font-size: 14px;
+    word-break: break-all;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+    margin: 18px auto;
+    border-radius: 10px;
+}
+pre {
+    background: #0b1220;
+    padding: 14px;
+  overflow-x: auto;
+    border-radius: 8px;
+    line-height: 1.55;
+    border: 1px solid #1f3147;
+    position: relative;
+}
+pre code {
+    color: #f8fafc;
+    background: transparent;
+}
+pre[data-code-normalized="1"] {
+    box-sizing: border-box;
+    max-width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: auto !important;
+    white-space: pre !important;
+    padding: 36px 16px 16px !important;
+    font-size: 14px;
+    line-height: 1.6 !important;
+    tab-size: 4;
+}
+pre[data-code-normalized="1"] > code {
+    display: block;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    white-space: pre !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+}
+.hljs {
+    background: #0b1220 !important;
+    color: #f8fafc !important;
+}
+.code-block-wrap {
+    position: relative;
+    overflow: visible;
+}
+.code-copy-btn {
+    position: absolute;
+    top: 8px !important;
+    right: 8px !important;
+    border: 1px solid #475569;
+    background: rgba(15, 23, 42, .92);
+    color: #e5e7eb;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    line-height: 1.3;
+    cursor: pointer;
+    z-index: 2;
+    pointer-events: auto;
+}
+.code-copy-btn:hover {
+    background: rgba(30, 41, 59, .96);
+}
+.code-copy-btn.copied {
+    color: #86efac;
+    border-color: #86efac;
+    background: rgba(20, 83, 45, .9);
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas;
+}
+blockquote {
+    margin: 14px 0;
+    padding: 10px 14px;
+    border-left: 4px solid #93c5fd;
+    background: #eff6ff;
+    color: #374151;
+}
+@media (max-width: 768px) {
+    .paper {
+        padding: 18px 14px 24px;
+        border-radius: 10px;
+    }
+    .doc-title {
+        font-size: 24px;
+    }
+    article p {
+        font-size: 16px;
+        line-height: 1.9;
+    }
+    article li {
+        font-size: 16px;
+    }
+    body.original-mode .article-meta-inline {
+        flex-wrap: wrap;
+    }
+}
+</style>
+<link id="katex-render-stylesheet-v2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css';">
+<style id="formula-render-fallback-styles-v2">
+.katex--inline {
+    display: inline;
+    max-width: none;
+    overflow: visible;
+    vertical-align: baseline;
+}
+.katex--inline .katex {
+    line-height: 1.2;
+}
+.katex--inline.formula-inline-scroll {
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    vertical-align: middle;
+    -webkit-overflow-scrolling: touch;
+}
+.katex--display,
+.katex-display {
+    display: block;
+    max-width: 100%;
+    margin: 1em 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    text-align: center;
+    -webkit-overflow-scrolling: touch;
+}
+.katex {
+    line-height: 1.2;
+    text-indent: 0;
+    white-space: nowrap;
+}
+.katex .katex-mathml {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+.katex .katex-html {
+    display: inline-block;
+    max-width: 100%;
+}
+.formula-legacy-duplicate {
+    display: none !important;
+}
+@media (max-width: 768px) {
+    .katex--inline {
+        display: inline-block;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        vertical-align: -.6em;
+        -webkit-overflow-scrolling: touch;
+    }
+    .katex--display,
+    .katex-display {
+        margin: .8em 0;
+        padding-bottom: 3px;
+        text-align: left;
+    }
+}
+</style>
+<style id="formula-render-compat-v3">
+.katex.formula-mathml-fallback .katex-mathml {
+    position: static !important;
+    display: inline !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+}
+</style>
+</head>
+<body class="original-mode">
+<div class="paper">
+    <h1 class="doc-title">GB/T 18487电动汽车充电标准深度解读：交流控制导引电路与充电时序实战指南</h1>
+    <article>
+    
+          <h3><a name="t0"></a>1. GB/T 18487标准概述：电动汽车充电的"交通规则"</h3>
+<p>如果把电动汽车充电比作城市交通，那么GB/T 18487就是确保所有车辆安全有序通行的交通规则。这套国家标准详细规定了充电桩与电动汽车之间的"对话方式"，就像<span style="color: #3391E5" class="new-words-blog" data-href="https://download.csdn.net/download/qq_47200222/85650571?utm_source=kw_dl_0616" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/qq_47200222/85650571?utm_source=kw_dl_0616&quot;,&quot;extra&quot;:{&quot;wordId&quot;:167097,&quot;businessId&quot;:4,&quot;word&quot;:&quot;交通信号灯&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/qq_47200222/85650571?utm_source=kw_dl_0616&quot;,&quot;extra&quot;:{&quot;wordId&quot;:167097,&quot;businessId&quot;:4,&quot;word&quot;:&quot;交通信号灯&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="交通信号灯">
+              交通信号灯 
+              </span>指挥车辆通行一样精确。</p>
+<p>我在参与某充电桩<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;项目\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="项目" data-pretit="项目">项目</span>时，曾遇到一个典型问题：充电枪插入后系统反复断开连接。后来排查发现是控制导引电路的电阻值检测存在偏差，这正是因为没有完全吃透GB/T 18487.1中关于连接确认的规范。这个教训让我深刻理解到，标准中的每个参数都不是随意设定的。</p>
+<p>现行标准体系包含几个关键部分：</p>
+<ul><li><strong>GB/T 18487.1</strong>：相当于充电系统的"基本法"，规定了通用要求和交互时序</li><li><strong>GB/T 20234系列</strong>：专门针对充电接口的"尺寸标准"，就像不同型号的电源插头</li><li><strong>充电模式3连接方式C</strong>：这是我们在公共充电站最常见的连接方案，占到实际应用的80%以上</li></ul>
+<p>理解这些标准的核心价值在于：它们不是束缚创新的枷锁，而是确保不同厂商设备能够互联互通的共同语言。就像手机充电接口统一后带来的便利性，电动汽车充电<span style="color: #FC5531" class="new-words-blog" data-href="https://so.csdn.net/so/search?q=标准化" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=标准化&quot;,&quot;extra&quot;:{&quot;wordId&quot;:386,&quot;businessId&quot;:1,&quot;word&quot;:&quot;标准化&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=标准化&quot;,&quot;extra&quot;:{&quot;wordId&quot;:386,&quot;businessId&quot;:1,&quot;word&quot;:&quot;标准化&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="标准化">
+              标准化 <i style="background-image: url(https://i-operation.csdnimg.cn/images/e7c3df7a602f4267be505af7ecfc3f88.png);" alt="标准化" class="words-blog-icon"></i>
+              </span>直接关系到用户体验和安全性。</p>
+<h3><a name="t1"></a>2. 交流控制导引电路：充电系统的"神经系统"</h3>
+<h4><a name="t2"></a>2.1 电路原理图解构</h4>
+<p>控制导引电路就像充电系统的神经系统，通过微弱的信号传递关键信息。让我们拆解这个精妙的系统：</p>
+<p>典型的控制导引电路包含几个关键节点：</p>
+<ul><li><strong>节点1/4</strong>：用于基础连接检测，相当于系统的"触觉"</li><li><strong>节点2</strong>：PWM信号发射端，承担着"语音通信"功能</li><li><strong>节点3</strong>：电阻检测点，相当于系统的"味觉"感知</li><li><strong>电子锁(K1/K2)</strong>：确保物理连接安全的"门闩"</li></ul>
+<p>在实际项目中，我曾测量到这样一组典型参数：</p>
+<pre data-code-normalized="1"><code class="language-text">完全连接状态：RC = 1.5kΩ ±5%
+半连接状态：R4+RC = 2.74kΩ ±5%
+PWM信号频率：1kHz ±5%</code></pre>
+<h4><a name="t3"></a>2.2 五大核心功能实战解析</h4>
+<h5>2.2.1 连接确认：充电系统的"握手<span style="color: #FC5531" class="new-words-blog" data-href="https://so.csdn.net/so/search?q=协议" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://so.csdn.net/so/search?q=协议&quot;,&quot;extra&quot;:{&quot;wordId&quot;:5149,&quot;businessId&quot;:1,&quot;word&quot;:&quot;协议&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="协议">
+              协议 <i style="background-image: url(https://i-operation.csdnimg.cn/images/e7c3df7a602f4267be505af7ecfc3f88.png);" alt="协议" class="words-blog-icon"></i>
+              </span>"</h5>
+<p>这个功能相当于两个人见面时的握手礼。系统通过检测RC电阻值变化来判断连接状态：</p>
+<ol><li>充电枪开始插入时（半连接）：检测到R4+RC组合电阻</li><li>完全插入到位时：电阻值突变为RC</li><li>电子锁闭合：相当于"握手成功"的确认信号</li></ol>
+<p>常见故障排查要点：</p>
+<ul><li>电阻值漂移超过±5%会导致误判</li><li>电子锁机械卡滞会造成虚接</li><li>接触点氧化会增加接触电阻</li></ul>
+<h5>2.2.2 功率识别：充电系统的"语言翻译"</h5>
+<p>这里存在两个关键对话：</p>
+<ol><li>充电枪通过RC值"告诉"充电桩自己的载流能力</li><li>充电桩通过PWM占空比"回应"可提供的最大电流</li></ol>
+<p><span style="color: #3391E5" class="new-words-blog" data-href="https://download.csdn.net/download/xhblair/89172675?utm_source=kw_dl_0616" data-report-view="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/xhblair/89172675?utm_source=kw_dl_0616&quot;,&quot;extra&quot;:{&quot;wordId&quot;:164938,&quot;businessId&quot;:4,&quot;word&quot;:&quot;实测数据&quot;,&quot;blogTemplateId&quot;:4}}" data-report-click="{&quot;spm&quot;:&quot;3001.11407&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/xhblair/89172675?utm_source=kw_dl_0616&quot;,&quot;extra&quot;:{&quot;wordId&quot;:164938,&quot;businessId&quot;:4,&quot;word&quot;:&quot;实测数据&quot;,&quot;blogTemplateId&quot;:4}}" data-report-query="spm=1001.2101.3001.11407" data-tit="实测数据">
+              实测数据 
+              </span>举例：</p>
+<pre data-code-normalized="1"><code class="language-text">占空比10% → 最大电流10A
+占空比50% → 最大电流32A
+占空比90% → 最大电流63A</code></pre>
+<p>我曾遇到一个案例：某车型在32A充电桩上只能以16A充电。最终发现是车辆<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;BMS\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="BMS" data-pretit="bms">BMS</span>错误解读了占空比信号，这凸显了标准统一解读的重要性。</p>
+<h3><a name="t4"></a>3. 充电时序详解：安全充电的"舞蹈步骤"</h3>
+<h4><a name="t5"></a>3.1 标准充电流程分解</h4>
+<p>标准充电时序就像精心编排的舞蹈，每个动作都有严格顺序：</p>
+<ol><li>
+<p><strong>准备阶段</strong>（T0-T1）：</p>
+<ul><li>充电桩自检（相当于舞者热身）</li><li>供电电压检测（检查舞台条件）</li></ul>
+</li><li>
+<p><strong>连接确认阶段</strong>（T1-T2）：</p>
+<ul><li>电子锁未闭合时，输出电压必须为0（安全红线）</li><li>电阻检测必须在200ms内完成（响应速度要求）</li></ul>
+</li><li>
+<p><strong>充电准备阶段</strong>（T2-T3）：</p>
+<ul><li>PWM信号开始传输（节奏确立）</li><li>车辆进行绝缘检测（安全确认）</li></ul>
+</li><li>
+<p><strong>充电阶段</strong>（T3-T4）：</p>
+<ul><li>接触器闭合（演出正式开始）</li><li>实时监控（全程安保）</li></ul>
+</li><li>
+<p><strong>结束阶段</strong>（T4-T5）：</p>
+<ul><li>先断交流电，后断导引信号（安全离场）</li><li>电子锁保持闭合直至完全断电（终场确认）</li></ul>
+</li></ol>
+<h4><a name="t6"></a>3.2 异常处理机制</h4>
+<p>在实际调试中，这些保护机制尤为重要：</p>
+<ul><li><strong>充电中断</strong>：PWM占空比突变至5%会触发紧急停止</li><li><strong>电子锁故障</strong>：双重检测机制确保不会带载断开</li><li><strong>绝缘故障</strong>：检测到绝缘电阻&lt;500Ω/V立即终止</li></ul>
+<p>某次现场测试中，我们遇到充电过程中偶发中断。通过示波器捕获到<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;PWM\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="PWM" data-pretit="pwm">PWM</span>信号存在毛刺，最终发现是电源滤波电容容值衰减导致的。这个案例说明，标准中规定的信号质量要求都有其实际意义。</p>
+<h3><a name="t7"></a>4. 常见问题排查指南</h3>
+<h4><a name="t8"></a>4.1 连接不稳定问题</h4>
+<p>这类问题通常表现为"充电-断开-充电"的循环，可能原因包括：</p>
+<ol><li>电阻检测电路精度不足（建议使用0.1%精度电阻）</li><li>接触阻抗变化（触点镀金厚度至少3μm）</li><li>电子锁驱动电流不足（实测值应≥规格书120%）</li></ol>
+<p>解决方案检查表：</p>
+<ul><li>[ ] 测量RC实际值（标准要求1.5kΩ±5%）</li><li>[ ] 检查连接器插拔力（标准值70N±10N）</li><li>[ ] 验证电子锁动作时间（应≤100ms）</li></ul>
+<h4><a name="t9"></a>4.2 功率识别错误</h4>
+<p>表现为充电电流与预期不符，诊断步骤：</p>
+<ol><li>用示波器捕获PWM信号（频率1kHz±5%）</li><li>检查占空比计算算法（边缘检测要准确）</li><li>验证ADC采样速率（建议≥10倍信号频率）</li></ol>
+<p>某客户案例：充电桩显示32A，车辆只接受16A。最终发现是PWM信号被软件滤波过度，导致实际<span class="words-blog hl-git-1" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.10283&quot;,&quot;extra&quot;:&quot;{\&quot;words\&quot;:\&quot;占空比\&quot;,\&quot;isNewGitCodeAB\&quot;:1}&quot;}" data-tit="占空比" data-pretit="占空比">占空比</span>识别错误。调整滤波算法后问题解决。</p>
+<h4><a name="t10"></a>4.3 安全防护要点</h4>
+<p>基于实际项目经验，这些防护措施必不可少：</p>
+<ul><li>过压保护：检测到电压超过264VAC立即断开</li><li>漏电保护：剩余电流动作值≤30mA</li><li>温度监控：连接器温度超过85℃降额运行</li></ul>
+<p>在南方某高温地区项目中，我们增加了温度<span class="words-blog hl-git-1" data-tit="传感器" data-pretit="传感器">传感器</span>数量，并将数据采样间隔从5秒缩短到1秒，有效预防了过热风险。这虽然超出标准要求，但显著提升了可靠性。</p>
+
+        
+    </article>
+</div>
+<script>
+(function() {
+    function readNodeText(node) {
+        if (!node) return '';
+        var byTextContent = typeof node.textContent === 'string' ? node.textContent : '';
+        if (byTextContent) return byTextContent;
+        return node.innerText || '';
+    }
+
+    function getMainArticle() {
+        var articles = Array.from(document.querySelectorAll('article'));
+        if (!articles.length) return null;
+
+        function scoreArticle(a) {
+            var score = 0;
+            if (!a) return score;
+            var text = String(a.innerText || a.textContent || '').replace(/\s+/g, ' ').trim();
+            score += Math.min(text.length, 12000);
+            if (a.querySelector('#content_views, .blog-content-box, .article_content, .markdown_views')) score += 4000;
+            if (a.querySelector('pre, code')) score += 1200;
+            if (a.querySelector('p')) score += 600;
+            var cls = String(a.className || '').toLowerCase();
+            if (/(content|article|blog)/.test(cls)) score += 500;
+            return score;
+        }
+
+        var best = articles[0];
+        var bestScore = scoreArticle(best);
+        for (var i = 1; i < articles.length; i++) {
+            var cur = articles[i];
+            var curScore = scoreArticle(cur);
+            if (curScore > bestScore) {
+                best = cur;
+                bestScore = curScore;
+            }
+        }
+        return best;
+    }
+
+    function extractRawCodeText(pre) {
+        var clone = pre.cloneNode(true);
+
+        [
+            '.line-numbers-rows', '.hljs-ln-numbers', '.hljs-ln-num',
+            '.gutter', '.code-gutter', '.linenumber', '.line-number',
+            'td.hljs-ln-numbers', 'th.hljs-ln-numbers',
+            '[class*="line-number"]', '[class*="linenumber"]',
+            '[data-line-number]', '[data-linenumber]',
+            '.pre-numbering', '.opt-box', '.btn-code-notes', '.hljs-button',
+            '.hide-preCode-box', '.look-more-preCode', '[data-type="deepblog"]'
+        ].forEach(function(sel) {
+            clone.querySelectorAll(sel).forEach(function(n) {
+                try { n.remove(); } catch (e) {}
+            });
+        });
+
+        var codeCol = clone.querySelector('td.hljs-ln-code, .hljs-ln-code, .code-content');
+        if (codeCol) {
+            return readNodeText(codeCol);
+        }
+
+        var code = clone.querySelector('code');
+        if (code) {
+            return readNodeText(code);
+        }
+        return readNodeText(clone);
+    }
+
+    function normalizeCodeText(text) {
+        var src = String(text || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        src = src.replace(/ /g, ' ').replace(/[​-‍﻿]/g, '');
+
+        function stripAiToolNoise(input) {
+            var lines = String(input || '').split('\n');
+            if (!lines.length) return input;
+
+            var markerIdx = -1;
+            for (var i = 0; i < lines.length; i++) {
+                var t = String(lines[i] || '').replace(/\s+/g, ' ').trim();
+                if (!t) continue;
+                if (
+                    /^(?:AI写代码|登录复制|一键获取完整项目代码|获取完整项目代码|完整项目代码)$/u.test(t) ||
+                    /(?:AI写代码|登录复制|一键获取完整项目代码|获取完整项目代码)/u.test(t)
+                ) {
+                    markerIdx = i;
+                    lines[i] = '';
+                    break;
+                }
+            }
+
+            if (markerIdx < 0) return input;
+
+            var expected = 1;
+            for (var j = markerIdx + 1; j < lines.length; j++) {
+                var s = String(lines[j] || '').trim();
+                if (!s) {
+                    lines[j] = '';
+                    continue;
+                }
+                if (/^\d(1, 3)$/.test(s) && parseInt(s, 10) === expected) {
+                    lines[j] = '';
+                    expected += 1;
+                    continue;
+                }
+                break;
+            }
+
+            return lines.join('\n');
+        }
+
+        function isAntiCrawlerNoticeBlock(input) {
+            var t = String(input || '').replace(/\s+/g, ' ').trim();
+            if (!t) return false;
+            var hasAuthor = /\[\s*本文作者\s*\]/u.test(t);
+            var hasSource = /\[\s*原文链接\s*\]/u.test(t);
+            var hasCopyright = /\[\s*版权声明\s*\]/u.test(t) || /版权声明/u.test(t);
+            var hasCrawlerHint = /非\s*CSDN\s*网站|网络爬虫|内容不完整|查看原文/u.test(t);
+            var hasCsdnLink = /blog\.csdn\.net\/[^\s]+\/article\/details\//i.test(t);
+            return hasAuthor && hasSource && hasCopyright && (hasCrawlerHint || hasCsdnLink);
+        }
+
+        function stripLeadingFenceNoise(input) {
+            var lines = String(input || '').split('\n');
+            if (!lines.length) return input;
+
+            var firstIdx = -1;
+            for (var i = 0; i < lines.length; i++) {
+                if (String(lines[i] || '').trim()) {
+                    firstIdx = i;
+                    break;
+                }
+            }
+            if (firstIdx < 0) return input;
+
+            var lang = String(lines[firstIdx] || '').trim().toLowerCase();
+            var langLooksPlain = /^(?:plain|plaintext|text|txt|bash|shell|sh|cmd|powershell|ps1|sql|ini|conf|config|yaml|yml|json|xml|python|py|javascript|js|java|go|rust|cpp|c|csharp|cs)$/.test(lang);
+            if (!langLooksPlain) return input;
+
+            var nums = [];
+            var j = firstIdx + 1;
+            while (j < lines.length) {
+                var t = String(lines[j] || '').trim();
+                if (!t) {
+                    j += 1;
+                    continue;
+                }
+                if (/^\d{1,4}$/.test(t)) {
+                    nums.push(parseInt(t, 10));
+                    j += 1;
+                    continue;
+                }
+                break;
+            }
+
+            if (nums.length < 4) return input;
+            var sequential = true;
+            for (var k = 0; k < nums.length; k++) {
+                if (nums[k] !== (k + 1)) {
+                    sequential = false;
+                    break;
+                }
+            }
+            if (!sequential) return input;
+
+            var out = lines.slice(0, firstIdx).concat(lines.slice(j));
+            return out.join('\n');
+        }
+
+        function trimBookendBlanks(input) {
+            var lines = String(input || '').split('\n');
+            while (lines.length && !String(lines[0] || '').trim()) lines.shift();
+            while (lines.length && !String(lines[lines.length - 1] || '').trim()) lines.pop();
+            return lines.join('\n');
+        }
+
+        src = stripLeadingFenceNoise(src);
+        src = stripAiToolNoise(src);
+
+        function compactInterleavedBlankLines(input) {
+            var lines = String(input || '').split('\n');
+            if (lines.length < 8) return input;
+
+            var blankCount = 0;
+            var interleavedBlank = 0;
+            for (var i = 0; i < lines.length; i++) {
+                var cur = String(lines[i] || '');
+                if (cur.trim()) continue;
+                blankCount += 1;
+                var prev = i > 0 ? String(lines[i - 1] || '').trim() : '';
+                var next = i + 1 < lines.length ? String(lines[i + 1] || '').trim() : '';
+                if (prev && next) interleavedBlank += 1;
+            }
+
+            var looksInterleaved =
+                blankCount >= 4 &&
+                interleavedBlank >= 4 &&
+                interleavedBlank / Math.max(1, blankCount) >= 0.6;
+            if (!looksInterleaved) return input;
+
+            var out = [];
+            for (var j = 0; j < lines.length; j++) {
+                var line = String(lines[j] || '');
+                if (!line.trim()) {
+                    var p = j > 0 ? String(lines[j - 1] || '').trim() : '';
+                    var n = j + 1 < lines.length ? String(lines[j + 1] || '').trim() : '';
+                    if (p && n) continue;
+                }
+                out.push(line);
+            }
+            return out.join('\n');
+        }
+
+        function collapseConsecutiveBlankLines(input) {
+            var lines = String(input || '').split('\n');
+            var out = [];
+            var prevBlank = false;
+            for (var i = 0; i < lines.length; i++) {
+                var line = String(lines[i] || '');
+                var isBlank = !line.trim();
+                if (isBlank && prevBlank) continue;
+                out.push(isBlank ? '' : line);
+                prevBlank = isBlank;
+            }
+            return out.join('\n');
+        }
+
+        src = compactInterleavedBlankLines(src);
+        src = collapseConsecutiveBlankLines(src);
+
+        var lines = src.split('\n');
+        var nonEmpty = 0;
+        var prefixed = 0;
+        var onlyNumber = 0;
+        var leadNums = [];
+
+        function parseLeadingNumber(t) {
+            var m = String(t || '').match(/^(\d{1,4})(?:\s*[|:：.\-、])?(?:\s+|$)/);
+            if (!m) return null;
+            var n = parseInt(m[1], 10);
+            return Number.isFinite(n) ? n : null;
+        }
+
+        lines.forEach(function(line) {
+            var t = String(line || '').trim();
+            if (!t) return;
+            nonEmpty += 1;
+            if (/^\d{1,4}$/.test(t)) {
+                onlyNumber += 1;
+                var nOnly = parseLeadingNumber(t);
+                if (nOnly !== null) leadNums.push(nOnly);
+                return;
+            }
+            if (/^\d{1,4}(?:\s*[|:：.\-、])?\s+\S/.test(t)) {
+                prefixed += 1;
+                var nPre = parseLeadingNumber(t);
+                if (nPre !== null) leadNums.push(nPre);
+            }
+        });
+
+        function looksLikeLineNumberSequence(nums) {
+            if (!Array.isArray(nums) || nums.length < 6) return false;
+            var stepHits = 0;
+            for (var i = 1; i < nums.length; i++) {
+                if (nums[i] === nums[i - 1] + 1) stepHits += 1;
+            }
+            var stepRatio = nums.length > 1 ? (stepHits / (nums.length - 1)) : 0;
+            var startsSmall = nums[0] <= 6;
+            return startsSmall && stepRatio >= 0.72;
+        }
+
+        // 仅在“明显是连续行号”时清理，避免误伤正文注释/数字常量。
+        var shouldStripLineNumber =
+            nonEmpty >= 6 &&
+            (prefixed + onlyNumber) / nonEmpty >= 0.7 &&
+            looksLikeLineNumberSequence(leadNums);
+        if (shouldStripLineNumber) {
+            lines = lines
+                .map(function(line) {
+                    return String(line || '').replace(/^\s*\d{1,4}(?:\s*[|:：.\-、])?\s+/, '');
+                })
+                .filter(function(line) {
+                    return !/^\s*\d{1,4}\s*$/.test(String(line || ''));
+                });
+            src = lines.join('\n');
+
+        }
+        src = trimBookendBlanks(src);
+        if (isAntiCrawlerNoticeBlock(src)) return '';
+        // 保真优先：不做全局空行压缩，只在上面的“明显噪声”场景中清理。
+        return src;
+    }
+
+    function applyCodeHighlight() {
+        var article = getMainArticle();
+        if (!article) return;
+        var blocks = article.querySelectorAll('pre');
+        blocks.forEach(function(pre) {
+            var rawText = extractRawCodeText(pre);
+            var normalized = pre.getAttribute('data-code-normalized') === '1' ? rawText : normalizeCodeText(rawText);
+            if (!String(normalized || '').trim()) {
+                try { pre.remove(); } catch (e) {}
+                return;
+            }
+            try { pre.setAttribute('data-copy-source', normalized); } catch (e) {}
+
+            var hasNoiseMarkup = !!pre.querySelector(
+                '.line-numbers-rows, .hljs-ln-numbers, .hljs-ln-num, .gutter, .code-gutter, .linenumber, .line-number, td.hljs-ln-numbers, th.hljs-ln-numbers, [class*="line-number"], [class*="linenumber"], [data-line-number], [data-linenumber], .pre-numbering, .opt-box, .btn-code-notes, .hljs-button, .hide-preCode-box, .look-more-preCode, [data-type="deepblog"]'
+            );
+
+            var code = pre.querySelector('code');
+            var currentCodeText = code ? String(readNodeText(code) || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n') : '';
+            var needsRewrite = hasNoiseMarkup || !code || (currentCodeText !== normalized);
+
+            // 仅在明显污染或结构异常时重建 code，默认保留原始结构与样式。
+            if (needsRewrite) {
+                var newCode = document.createElement('code');
+                newCode.textContent = normalized;
+                if (code && code.className) {
+                    newCode.className = code.className;
+                } else if (pre.className && /language-[^\s]+/.test(pre.className)) {
+                    newCode.className = pre.className.match(/language-[^\s]+/)[0];
+                }
+                pre.innerHTML = '';
+                pre.appendChild(newCode);
+                code = newCode;
+            }
+
+            if (window.hljs && typeof window.hljs.highlightElement === 'function') {
+                if (code) window.hljs.highlightElement(code);
+            }
+        });
+    }
+
+    function highlightExistingCodeBlocks() {
+        if (!window.hljs || typeof window.hljs.highlightElement !== 'function') return;
+        var article = getMainArticle();
+        if (!article) return;
+
+        article.querySelectorAll('pre code').forEach(function(code) {
+            var pre = code.closest('pre');
+            if (pre) {
+                try {
+                    var normalized = pre.getAttribute('data-code-normalized') === '1' ? extractRawCodeText(pre) : normalizeCodeText(extractRawCodeText(pre));
+                    if (!String(normalized || '').trim()) {
+                        pre.remove();
+                        return;
+                    }
+                    pre.setAttribute('data-copy-source', normalized);
+                    var current = String(readNodeText(code) || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+                    if (normalized && normalized !== current) {
+                        code.textContent = normalized;
+                    }
+                } catch (e) {}
+            }
+            try { window.hljs.highlightElement(code); } catch (e) {}
+        });
+
+        // 常见代码块有时没有 <code>，仅为 <pre>；直接对 pre 做高亮。
+        article.querySelectorAll('pre').forEach(function(pre) {
+            var normalizedText = '';
+            try {
+                normalizedText = pre.getAttribute('data-code-normalized') === '1' ? extractRawCodeText(pre) : normalizeCodeText(extractRawCodeText(pre));
+                if (!String(normalizedText || '').trim()) {
+                    pre.remove();
+                    return;
+                }
+                pre.setAttribute('data-copy-source', normalizedText);
+            } catch (e) {}
+            if (pre.querySelector('code')) return;
+            if (normalizedText) {
+                var currentPre = String(readNodeText(pre) || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+                if (normalizedText !== currentPre) pre.textContent = normalizedText;
+            }
+            try { window.hljs.highlightElement(pre); } catch (e) {
+                if (!pre.classList.contains('hljs')) pre.classList.add('hljs');
+            }
+        });
+    }
+
+    function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+        }
+        return new Promise(function(resolve, reject) {
+            try {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                var ok = document.execCommand('copy');
+                document.body.removeChild(ta);
+                if (ok) resolve();
+                else reject(new Error('copy failed'));
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
+    function bindCopyButtons() {
+        var blocks = [];
+        var article = getMainArticle();
+        if (!article) return;
+
+        function pushUniqueBlock(el) {
+            if (!el) return;
+            if (blocks.indexOf(el) >= 0) return;
+            blocks.push(el);
+        }
+
+        article.querySelectorAll('pre').forEach(function(pre) {
+            pushUniqueBlock(pre);
+        });
+
+        // 部分文章代码块并非 pre 结构，补充常见容器以保证复制按钮可见可用。
+        article.querySelectorAll('table.hljs-ln, .hljs').forEach(function(node) {
+            if (!node) return;
+            if (node.closest && node.closest('pre')) return;
+            if (node.matches && node.matches('code')) return;
+            var text = String(node.innerText || node.textContent || '').trim();
+            if (text.length < 20) return;
+            pushUniqueBlock(node);
+        });
+
+        blocks.forEach(function(block) {
+            if (!block) return;
+            if (!block.parentNode) return;
+
+            if (block.getAttribute('data-copy-ready') === '1') return;
+            block.setAttribute('data-copy-ready', '1');
+
+            var wrap = document.createElement('div');
+            wrap.className = 'code-block-wrap';
+            block.parentNode.insertBefore(wrap, block);
+            wrap.appendChild(block);
+
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'code-copy-btn';
+            btn.textContent = '一键复制';
+            btn.addEventListener('click', function() {
+                var text = String(block.getAttribute('data-copy-source') || '');
+                if (!text) {
+                    text = normalizeCodeText(extractRawCodeText(block));
+                    try { block.setAttribute('data-copy-source', text); } catch (e) {}
+                }
+                copyText(text).then(function() {
+                    btn.textContent = '已复制';
+                    btn.classList.add('copied');
+                    setTimeout(function() {
+                        btn.textContent = '一键复制';
+                        btn.classList.remove('copied');
+                    }, 1200);
+                }).catch(function() {
+                    btn.textContent = '复制失败';
+                    setTimeout(function() { btn.textContent = '一键复制'; }, 1200);
+                });
+            });
+            wrap.appendChild(btn);
+        });
+    }
+
+    function findNearbyPre(node) {
+        if (!node) return null;
+        var wrap = node.closest('.code-block-wrap');
+        if (wrap) {
+            var inWrap = wrap.querySelector('pre');
+            if (inWrap) return inWrap;
+        }
+
+        var cur = node;
+        for (var i = 0; i < 6 && cur; i++) {
+            var next = cur.nextElementSibling;
+            if (next) {
+                var p1 = next.matches && next.matches('pre') ? next : (next.querySelector ? next.querySelector('pre') : null);
+                if (p1) return p1;
+            }
+            cur = next;
+        }
+
+        cur = node;
+        for (var j = 0; j < 4 && cur; j++) {
+            var prev = cur.previousElementSibling;
+            if (prev) {
+                var p2 = prev.matches && prev.matches('pre') ? prev : (prev.querySelector ? prev.querySelector('pre') : null);
+                if (p2) return p2;
+            }
+            cur = prev;
+        }
+
+        var article = getMainArticle();
+        return article ? article.querySelector('pre') : null;
+    }
+
+    function purgeProjectCodeEntry(root) {
+        var scope = root || document;
+        var nodes = scope.querySelectorAll('.btn-code-notes, [data-type="deepblog"], .hide-preCode-box, .look-more-preCode, .opt-box, button, a, span, div, p');
+
+        function isStandaloneNumberNode(n) {
+            if (!n || n.nodeType !== 1) return false;
+            var tag = String(n.tagName || '').toLowerCase();
+            if (!/^(?:p|div|span|li|a|button|strong|em|small|section)$/i.test(tag)) return false;
+            var txt = String(n.innerText || n.textContent || '').replace(/ /g, ' ').replace(/\s+/g, ' ').trim();
+            if (!txt) return false;
+            return /^(?:\d+|[·•.|]+|\d+\s*[·•.]\s*\d+)$/u.test(txt);
+        }
+
+        function removeSiblingNumberArtifacts(anchor) {
+            if (!anchor || !anchor.parentElement) return;
+            var prev = anchor.previousElementSibling;
+            var next = anchor.nextElementSibling;
+            for (var i = 0; i < 6; i++) {
+                if (prev && isStandaloneNumberNode(prev)) {
+                    var toRemovePrev = prev;
+                    prev = prev.previousElementSibling;
+                    try { toRemovePrev.remove(); } catch (e) {}
+                }
+                if (next && isStandaloneNumberNode(next)) {
+                    var toRemoveNext = next;
+                    next = next.nextElementSibling;
+                    try { toRemoveNext.remove(); } catch (e2) {}
+                }
+            }
+        }
+
+        function hasMeaningfulContent(el) {
+            if (!el || el.nodeType !== 1) return false;
+            if (el.matches && el.matches('pre, code, img, video, iframe, table, ul, ol, li, blockquote, h1, h2, h3, h4, h5, h6')) return true;
+            if (el.querySelector && el.querySelector('pre, code, img, video, iframe, table, ul, ol, li, blockquote, h1, h2, h3, h4, h5, h6')) return true;
+            var text = String(el.innerText || el.textContent || '')
+                .replace(/ /g, ' ')
+                .replace(/[​-‍﻿]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            return text.length > 0;
+        }
+
+        function pruneEmptyAround(anchor, rootEl) {
+            if (!anchor || !anchor.parentElement) return;
+            var parent = anchor.parentElement;
+            var prev = anchor.previousElementSibling;
+            var next = anchor.nextElementSibling;
+
+            function removeIfEmpty(el) {
+                if (!el || el.nodeType !== 1) return;
+                if (hasMeaningfulContent(el)) return;
+                try { el.remove(); } catch (e) {}
+            }
+
+            // 清理目标周围常见空壳节点，避免删除按钮后留下空白行。
+            removeIfEmpty(prev);
+            removeIfEmpty(next);
+
+            // 向上收口空壳容器（限制层级，避免影响正文结构）。
+            var cur = parent;
+            for (var i = 0; i < 4 && cur && cur !== rootEl; i++) {
+                if (hasMeaningfulContent(cur)) break;
+                var up = cur.parentElement;
+                try { cur.remove(); } catch (e2) {}
+                cur = up;
+            }
+        }
+
+        nodes.forEach(function(el) {
+            if (!el) return;
+            var txt = String(el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
+            var sig = (String(el.className || '') + ' ' + String(el.getAttribute('data-type') || '')).toLowerCase();
+            var byClass = sig.indexOf('btn-code-notes') >= 0 || sig.indexOf('deepblog') >= 0 || sig.indexOf('hide-precode') >= 0 || sig.indexOf('look-more-precode') >= 0;
+            var byText = /一键获取.*项目.*代码|获取完整项目代码|完整项目代码|一键获取完整项目代码/.test(txt);
+            if (!(byClass || byText)) return;
+
+            var holder = el.closest('button, a, .btn, .button, [role="button"], .opt-box, .operate-box, .tool-item, .article-tool, .right-toolbox, .hide-preCode-box, .look-more-preCode') || el;
+            removeSiblingNumberArtifacts(holder);
+            pruneEmptyAround(holder, scope.nodeType === 1 ? scope : document.body);
+            try { holder.remove(); } catch (e) {
+                try { el.remove(); } catch (e2) {}
+            }
+        });
+    }
+
+    function runWhenHljsReady(fn, retries) {
+        if (window.hljs && typeof window.hljs.highlightElement === 'function') {
+            fn();
+            return;
+        }
+        if (retries <= 0) {
+            fn();
+            return;
+        }
+        setTimeout(function() { runWhenHljsReady(fn, retries - 1); }, 120);
+    }
+
+    function ensureHljsLoaded(done) {
+        if (window.hljs && typeof window.hljs.highlightElement === 'function') {
+            done();
+            return;
+        }
+
+        var candidates = [
+            'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js',
+            'https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/common.min.js',
+            'https://unpkg.com/highlight.js@11.11.1/lib/common.min.js',
+            'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.11.1/highlight.min.js'
+        ];
+
+        function loadAt(idx) {
+            if (window.hljs && typeof window.hljs.highlightElement === 'function') {
+                done();
+                return;
+            }
+            if (idx >= candidates.length) {
+                done();
+                return;
+            }
+
+            var src = candidates[idx];
+            var exists = document.querySelector('script[data-hljs-src="' + src + '"]');
+            if (exists) {
+                setTimeout(function() { loadAt(idx + 1); }, 80);
+                return;
+            }
+
+            var s = document.createElement('script');
+            s.src = src;
+            s.async = true;
+            s.setAttribute('data-hljs-src', src);
+            s.onload = function() {
+                if (window.hljs && typeof window.hljs.highlightElement === 'function') done();
+                else loadAt(idx + 1);
+            };
+            s.onerror = function() { loadAt(idx + 1); };
+            (document.head || document.documentElement).appendChild(s);
+        }
+
+        loadAt(0);
+    }
+
+    function tidyOriginalHeader() {
+        if (!document.body.classList.contains('original-mode')) return;
+        var article = getMainArticle();
+        if (!article) return;
+
+        /* article_cleanup_runtime_v2 */
+        var substantiveArticleSelector = 'p, h1, h2, h3, h4, h5, h6, pre, code, table, thead, tbody, tfoot, tr, th, td, ul, ol, li, blockquote, figure, img, video, iframe, .MathJax, .MathJax_Display, .MathJax_SVG, .MathJax_CHTML, .MathJax_Preview, .MJXp-math, mjx-container, .katex, math';
+        function hasSubstantiveArticleContent(el) {
+            if (!el || el.nodeType !== 1) return false;
+            if (el.matches && el.matches(substantiveArticleSelector)) return true;
+            if (el.closest && el.closest(substantiveArticleSelector)) return true;
+            return !!(el.querySelector && el.querySelector(substantiveArticleSelector));
+        }
+
+        function isInteractionNoise(sig, text) {
+            var signal = String(sig || '').toLowerCase();
+            var label = String(text || '').replace(/\s+/g, ' ').trim();
+            var classHit = /(digg|thumb|praise|collect|favor|favourite|favorite|like|toolbar|operate|article-meta)/i.test(signal);
+            var exactLabel = /^(?:点赞|收藏|推荐|分享|阅读|原创|发布时间|vip|人觉得很赞)(?:\s*[:：]?\s*\d+)?$/i.test(label);
+            return classHit || exactLabel;
+        }
+
+        var headerBox = article.querySelector('#article-header-box, .article-header-box');
+        var titleEl = (headerBox && headerBox.querySelector('h1, .title-article, .article-title, .blog-title'))
+            || article.querySelector('h1, .title-article, .article-title, .blog-title');
+        var titleText = String((titleEl && (titleEl.innerText || titleEl.textContent)) || '').trim();
+
+        if (!titleText) {
+            var globalTitleEl = document.querySelector('.doc-title, h1.title-article, h1.article-title, .blog-content-box h1, #articleContentId h1');
+            titleText = String((globalTitleEl && (globalTitleEl.innerText || globalTitleEl.textContent)) || '').trim();
+        }
+        if (!titleText) {
+            var og = document.querySelector('meta[property="og:title"], meta[name="og:title"]');
+            titleText = String((og && og.getAttribute('content')) || '').trim();
+        }
+        if (!titleText) {
+            titleText = String(document.title || '').trim();
+            titleText = titleText
+                .replace(/\s*[-|_｜]\s*CSDN.*$/i, '')
+                .replace(/\s*\|\s*CSDN.*$/i, '')
+                .replace(/\s*-\s*博客园.*$/i, '')
+                .trim();
+        }
+
+        // 仅保留标题，清理其余头部信息，减少查看页首屏杂乱感。
+        var outerTitle = document.querySelector('.paper > .doc-title');
+        if (outerTitle && titleText) {
+            outerTitle.textContent = titleText;
+        }
+
+        var cleanHead = document.createElement('div');
+        cleanHead.className = 'clean-article-head';
+        var hasCleanTitle = false;
+
+        if (!outerTitle && titleText) {
+            var cleanTitle = document.createElement('h1');
+            cleanTitle.className = 'title-article';
+            cleanTitle.textContent = titleText;
+            cleanHead.appendChild(cleanTitle);
+            hasCleanTitle = true;
+        }
+
+        if (cleanHead.children.length > 0) {
+            article.insertAdjacentElement('afterbegin', cleanHead);
+        }
+
+        if (hasCleanTitle || !!outerTitle) {
+            article.querySelectorAll('h1, .title-article, .article-title, .blog-title').forEach(function(el) {
+                if (cleanHead.contains(el)) return;
+                try { el.remove(); } catch (e) {}
+            });
+        }
+
+        function isNoiseText(txt) {
+            var t = String(txt || '').trim();
+            if (!t) return true;
+            if (/^(?:[·•.。|]|\d|\s)+$/u.test(t)) return true;
+            if (/^\d+\s*[·•.]\s*\d+$/u.test(t)) return true;
+            if (isInteractionNoise('', t)) return true;
+            return false;
+        }
+
+        // 彻底清理标题区旁的互动、标签、版权、元信息块。
+        var noisySelectors = [
+            '#article-header-box', '.article-header-box',
+            '.article-meta-inline', '.article-meta', '.article-meta-box', '.article-status',
+            '.article-info-box', '.article-bar-top', '.toolbar-box', '.tool-box', '.blog-meta', '.operate-box', '.stats-box',
+            '.article-tags', '.article-tags-box', '.article-tag-box', '.blog-tags-box', '.article-copyright', '.copyright', '.follow-reward',
+            '.recommend-box', '.recommend-right', '.recommend-item-box',
+            '.digg-box', '.digg-box-item', '.digg-recommend-box',
+            '.like-box', '.thumb-box', '.praise-box', '.up-box',
+            '.collect-box', '.favorite-box', '.favourite-box',
+            '.operate-block', '.article-operate-box', '.tool-item-box',
+            '.article_collect', '.article-like', '.article-digg',
+            '.left-toolbox', '.csdn-side-toolbar', '.aside-box',
+            '[class*="vip"]', '[id*="vip"]',
+            '[class*="digg"]', '[class*="thumb"]', '[class*="praise"]',
+            '[class*="collect"]', '[class*="favor"]', '[class*="like"]'
+        ];
+        article.querySelectorAll(noisySelectors.join(',')).forEach(function(el) {
+            try { el.remove(); } catch (e) {}
+        });
+
+        Array.from(article.querySelectorAll('*')).forEach(function(el) {
+            if (hasSubstantiveArticleContent(el)) return;
+            var top = 0;
+            try { top = Number(el.getBoundingClientRect().top || 0); } catch (e) { top = 0; }
+            if (top > 1200) return;
+
+            var cls = String(el.className || '');
+            var id = String(el.id || '');
+            var sig = (cls + ' ' + id).toLowerCase();
+            var text = String(el.innerText || el.textContent || '').trim();
+            var hasCodeOrContent = !!el.querySelector('pre, code, p, h2, h3, h4, table, ul, ol');
+            var hasIcon = !!el.querySelector('svg, img, i, use');
+            var likeFamily = isInteractionNoise(sig, text);
+            var mostlyNumber = /^(?:[·•.|\s]|\d)+$/.test(text) || /^\d+\s*[·•.]\s*\d+$/.test(text);
+
+            if (likeFamily && !hasCodeOrContent && (hasIcon || text.length <= 18 || mostlyNumber)) {
+                try { el.remove(); } catch (e) {}
+            }
+        });
+
+        // 首屏兜底：在正文开始前，清掉仅含图标/数字/分隔符的残留块。
+        function isMainContentStart(el) {
+            if (!el || el.nodeType !== 1) return false;
+            if (el.matches('h2, h3, h4, pre, blockquote, ul, ol, table, img, figure')) return true;
+            if (el.querySelector('pre, code, table, img')) return true;
+
+            var txt = String(el.innerText || el.textContent || '').trim();
+            if (isNoiseText(txt)) return false;
+
+            var compact = txt.replace(/\s+/g, '');
+            var cjkCount = (compact.match(/[一-龥]/g) || []).length;
+            var hasSentencePunc = /[。！？；：:]/.test(compact);
+            var hasPara = !!el.querySelector('p');
+            if (el.matches('p')) return compact.length >= 4 || cjkCount >= 2 || hasSentencePunc;
+            if (hasPara) return compact.length >= 10 || cjkCount >= 4 || hasSentencePunc;
+            return false;
+        }
+
+        var children = Array.from(article.children).filter(function(el) {
+            return !!el && !cleanHead.contains(el);
+        });
+
+        var mainStartIndex = -1;
+        for (var ci = 0; ci < children.length; ci++) {
+            var cur = children[ci];
+            if (!cur) continue;
+            var curText = String(cur.innerText || cur.textContent || '').trim();
+            var isLikelyNoiseLine = /^(?:[·•.|\s]|\d)+$/.test(curText) || /^\d+\s*[·•.]\s*\d+$/.test(curText);
+            if (isMainContentStart(cur) && !isLikelyNoiseLine) {
+                mainStartIndex = ci;
+                break;
+            }
+        }
+
+        // 在正文起点前强制清理，确保只保留标题，不显示原创/VIP/阅读/点赞等行。
+        if (mainStartIndex > 0) {
+            for (var ri = 0; ri < mainStartIndex; ri++) {
+                try { children[ri].remove(); } catch (e) {}
+            }
+        }
+
+        // 再做一层兜底：清理可能混在正文前后的互动噪声块。
+        Array.from(article.children).forEach(function(el) {
+            if (!el || cleanHead.contains(el)) return;
+            if (hasSubstantiveArticleContent(el)) return;
+            var t = String(el.innerText || el.textContent || '').trim();
+            var iconLike = !!el.querySelector('svg, img, i, use');
+            var tinyText = t.length <= 24;
+            var numberOnly = /^(?:[·•.|\s]|\d)+$/.test(t) || /^\d+\s*[·•.]\s*\d+$/.test(t);
+            var likeWord = isInteractionNoise(String(el.className || ''), t);
+            var tooTallNoise = false;
+            try { tooTallNoise = (el.getBoundingClientRect().height > 110) && (numberOnly || (tinyText && likeWord)); } catch (e) {}
+
+            if ((iconLike && (numberOnly || (tinyText && likeWord))) || tooTallNoise || numberOnly) {
+                try { el.remove(); } catch (e) {}
+            }
+        });
+
+        // 清理开头可能残留的单独数字/分隔符（例如 "9 · 7" 或孤立 "."）
+        var cleaned = 0;
+        var nodes = Array.from(article.childNodes || []);
+        nodes.forEach(function(node) {
+            if (cleaned >= 12) return;
+            if (node === cleanHead || cleanHead.contains(node)) return;
+
+            if (node.nodeType === 3) {
+                var txt = String(node.textContent || '').trim();
+                if (/^(?:[·•.|]|\d+|\d+\s*[·•.]\s*\d+)$/u.test(txt)) {
+                    try { node.remove(); cleaned += 1; } catch (e) {}
+                }
+                return;
+            }
+
+            if (node.nodeType === 1) {
+                var el = node;
+                var text = String(el.innerText || el.textContent || '').trim();
+                var hasComplex = !!el.querySelector('pre, code, p, h1, h2, h3, h4, ul, ol, table, img');
+                if (!hasComplex && /^(?:[·•.|]|\d+|\d+\s*[·•.]\s*\d+)$/u.test(text)) {
+                    try { el.remove(); cleaned += 1; } catch (e) {}
+                }
+            }
+        });
+
+        // 移除原文里常见的“获取完整项目代码”入口，避免查看页出现干扰按钮。
+        purgeProjectCodeEntry(article);
+        purgeProjectCodeEntry(document);
+    }
+
+    function cleanupArticleLead() {
+        var article = getMainArticle();
+        if (!article) return;
+
+        var removed = 0;
+        while (article.firstChild && removed < 20) {
+            var node = article.firstChild;
+            if (node.nodeType === Node.TEXT_NODE && !String(node.textContent || '').trim()) {
+                article.removeChild(node);
+                removed += 1;
+                continue;
+            }
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                var tag = String(node.tagName || '').toLowerCase();
+                var text = String(node.textContent || '').replace(/ /g, ' ').trim();
+                var emptyLike = (tag === 'br') || (!text && (tag === 'p' || tag === 'div' || tag === 'section'));
+                if (emptyLike) {
+                    article.removeChild(node);
+                    removed += 1;
+                    continue;
+                }
+            }
+            break;
+        }
+
+        var firstParagraph = article.querySelector('p');
+        if (!firstParagraph) return;
+        var lead = String(firstParagraph.textContent || '').replace(/\s+/g, ' ').trim();
+        if (!lead) return;
+        if (lead.length <= 72) firstParagraph.classList.add('lead-line');
+    }
+
+    function collapseArticleBlankArtifacts() {
+        var article = getMainArticle();
+        if (!article) return;
+
+        // 仅清理纯空白块；不处理包含真实内容的节点，保证正文完整性。
+        var candidates = article.querySelectorAll('p, div, section, span');
+        /* formula_blank_cleanup_v1 */
+        var formulaSelector = '.katex, .katex--inline, .katex--display, .katex-display, .MathJax, .MathJax_Display, .MathJax_SVG, .MathJax_CHTML, .MathJax_Preview, .MJXp-math, mjx-container, math';
+        candidates.forEach(function(el) {
+            if (!el || !el.parentElement) return;
+            if ((el.closest && el.closest(formulaSelector)) || (el.querySelector && el.querySelector(formulaSelector))) return;
+            if (el.matches('pre, code') || (el.closest && el.closest('pre, code'))) return;
+            if (el.querySelector && el.querySelector('pre, code, img, video, iframe, table, ul, ol, li, blockquote, h1, h2, h3, h4, h5, h6')) return;
+            var html = String(el.innerHTML || '').replace(/\s+/g, ' ').trim();
+            var text = String(el.innerText || el.textContent || '')
+                .replace(/ /g, ' ')
+                .replace(/[​-‍﻿]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            var onlyBrLike = /^((<br\s*\/?\s*>\s*)+)$/i.test(html);
+            if (!text || onlyBrLike) {
+                try { el.remove(); } catch (e) {}
+            }
+        });
+
+        // 折叠连续空白文本节点，防止删除节点后出现明显空行缝隙。
+        var nodes = Array.from(article.childNodes || []);
+        var seenBlank = false;
+        nodes.forEach(function(n) {
+            if (!n || n.nodeType !== 3) {
+                seenBlank = false;
+                return;
+            }
+            var s = String(n.textContent || '')
+                .replace(/ /g, ' ')
+                .replace(/[​-‍﻿]/g, '');
+            if (!s.trim()) {
+                if (seenBlank) {
+                    try { n.remove(); } catch (e) {}
+                } else {
+                    n.textContent = '\n';
+                    seenBlank = true;
+                }
+            } else {
+                seenBlank = false;
+            }
+        });
+    }
+
+    function bootstrapCodeBlocks() {
+        cleanupArticleLead();
+        tidyOriginalHeader();
+        purgeProjectCodeEntry(document);
+        collapseArticleBlankArtifacts();
+        setTimeout(function() { purgeProjectCodeEntry(document); }, 300);
+        setTimeout(function() { collapseArticleBlankArtifacts(); }, 360);
+        // 全局执行代码块规范化：尽量保留原文，但剔除插空空行并确保高亮可用。
+        var ENABLE_NORMALIZE_CODE = true;
+        // 先保障代码文本归一化（修复插空空行）；高亮库就绪后再着色。
+        if (ENABLE_NORMALIZE_CODE) applyCodeHighlight();
+
+        ensureHljsLoaded(function() {
+            runWhenHljsReady(function() {
+                if (ENABLE_NORMALIZE_CODE) applyCodeHighlight();
+                else highlightExistingCodeBlocks();
+            }, 25);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootstrapCodeBlocks);
+    } else {
+        bootstrapCodeBlocks();
+    }
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<script>
+(function () {
+    if (window.__FORMULA_RENDER_SUPPORT_V2__) return;
+    window.__FORMULA_RENDER_SUPPORT_V2__ = true;
+
+    function matches(node, selector) {
+        return !!(node && node.matches && node.matches(selector));
+    }
+
+    function containsKatex(node) {
+        return !!(
+            node && (
+                matches(node, '.katex, .katex-html, .katex--inline, .katex--display') ||
+                (node.querySelector && node.querySelector('.katex, .katex-html'))
+            )
+        );
+    }
+
+    function hasNearbyKatex(node) {
+        if (!node) return false;
+        if (node.closest && node.closest('.katex-mathml')) return true;
+
+        function isLegacyMathNode(candidate) {
+            return matches(candidate, '.MathJax_Display, .MathJax_Preview');
+        }
+
+        function scan(candidate, direction) {
+            for (var i = 0; candidate && i < 32; i += 1) {
+                if (containsKatex(candidate)) return true;
+                if (!isLegacyMathNode(candidate)) return false;
+                candidate = direction < 0
+                    ? candidate.previousElementSibling
+                    : candidate.nextElementSibling;
+            }
+            return false;
+        }
+
+        return scan(node.previousElementSibling, -1) || scan(node.nextElementSibling, 1);
+    }
+
+    function suppressLegacyFormulaDuplicates() {
+        if (!document.querySelector('.katex-html')) return;
+
+        document.querySelectorAll('.MathJax_Display').forEach(function (node) {
+            if (hasNearbyKatex(node)) node.classList.add('formula-legacy-duplicate');
+        });
+
+        document.querySelectorAll('.MathJax_Preview').forEach(function (node) {
+            var prev = node.previousElementSibling;
+            var next = node.nextElementSibling;
+            if (
+                hasNearbyKatex(node) ||
+                matches(prev, '.formula-legacy-duplicate') ||
+                matches(next, '.formula-legacy-duplicate')
+            ) {
+                node.classList.add('formula-legacy-duplicate');
+            }
+        });
+    }
+
+    function tuneInlineFormulaOverflow() {
+        document.querySelectorAll('.katex--inline').forEach(function (node) {
+            node.classList.remove('formula-inline-scroll');
+            var formula = node.querySelector('.katex');
+            var parent = node.parentElement;
+            if (!formula || !parent) return;
+            var viewportWidth = document.documentElement.clientWidth || 0;
+            var parentWidth = parent.clientWidth || viewportWidth;
+            var availableWidth = Math.max(0, Math.min(parentWidth, viewportWidth));
+            var formulaWidth = Math.max(formula.scrollWidth || 0, formula.getBoundingClientRect().width);
+            if (availableWidth > 0 && formulaWidth > availableWidth + 1) {
+                node.classList.add('formula-inline-scroll');
+            }
+        });
+    }
+
+    function applyFormulaLayout() {
+        suppressLegacyFormulaDuplicates();
+        tuneInlineFormulaOverflow();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyFormulaLayout);
+    } else {
+        applyFormulaLayout();
+    }
+    window.addEventListener('load', tuneInlineFormulaOverflow, { once: true });
+    window.addEventListener('resize', tuneInlineFormulaOverflow);
+})();
+</script>
+<script>/* formula_render_support_v2 */</script>
+<script>
+(function () {
+    if (window.__FORMULA_RENDER_SUPPORT_V3__) return;
+    window.__FORMULA_RENDER_SUPPORT_V3__ = true;
+
+    function markMathmlFallbacks() {
+        document.querySelectorAll('.katex').forEach(function (node) {
+            if (!node.querySelector('.katex-html') && node.querySelector('.katex-mathml')) {
+                node.classList.add('formula-mathml-fallback');
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', markMathmlFallbacks, { once: true });
+    } else {
+        markMathmlFallbacks();
+    }
+})();
+</script>
+<script>/* formula_render_support_v3 */</script>
+</body>
+</html>
